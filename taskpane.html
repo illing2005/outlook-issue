@@ -1,0 +1,41 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+
+<body>
+    <p>This add-in will insert the text 'Hello world!' in a new message.</p>
+    <button id="helloButton">Say hello</button>
+
+    <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
+    <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" />
+</body>
+
+<script>
+
+    Office.onReady((info) => {
+        if (info.host === Office.HostType.Outlook) {
+            // document.getElementById("helloButton").onclick = sayHello;
+            document.getElementById("helloButton").onclick = sayHello;
+        }
+    });
+
+    function sayHello() {
+        Office.context.mailbox.getUserIdentityTokenAsync(async (result) => {
+            if (result.status !== Office.AsyncResultStatus.Succeeded) {
+                // Fails for free outlook.com accounts
+              console.error(`Token retrieval failed with message: ${result.error.message}`);
+            } else {
+                // works for O365 accounts
+              console.log(result.value);
+            }
+          });
+    }
+
+</script>
+
+</html>
